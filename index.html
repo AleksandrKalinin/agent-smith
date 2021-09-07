@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Arrays</title>
+  </head>
+  <body>
+    <script>
+      let multiArr = [
+      [ [1, 2, 3], [3, 2, 1], [4, 5, 6] ],
+      [ [1, 6, 2], [8, 2, 7], [3, 5, 9] ],
+      [ [2, 8, 2], [6, 4, 2], [3, 1, 5] ]
+      ]
+
+      function getNeighbours(arr) {
+        let tempOuter = [];
+        for (let i = 0; i < arr.length; i++) {
+          const outerArr = arr[i];
+          let tempInner = []; 
+          for (let j = 0; j < outerArr.length; j++) {
+            const innerArr = arr[i][j];
+            let temp = [];
+            for (let x = 0; x < innerArr.length; x++) {
+              temp.push( (arr[i][j][x - 1] || 0) + (arr[i][j][x + 1] || 0) + (arr[i][j - 1] ? arr[i][j - 1][x] : 0) + (arr[i][j + 1] ? arr[i][j + 1][x] : 0) + (arr[i - 1] ? arr[i - 1][j][x] : 0) + (arr[i + 1] ? arr[i + 1][j][x] : 0) );
+            }
+            tempInner.push(temp);
+          } 
+          tempOuter.push(tempInner);
+        }
+        return tempOuter;
+      }
+
+      console.log(getNeighbours(multiArr));
+
+    </script>
+  </body>
+  </html>
