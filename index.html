@@ -34,6 +34,109 @@
 
       console.log(getNeighbours(multiArr));
 
+      //Universal solution attempt
+      /*
+      let arr = [1, 2, 3, 4];
+      let multiArr = [
+      [ [1, 2, 3], [3, 2, 1], [4, 5, 6] ],
+      [ [1, 6, 2], [8, 2, 7], [3, 5, 9] ],
+      [ [2, 8, 2], [6, 4, 2], [3, 1, 5] ]
+      ]
+      let dimension = 1; let fixedDimension = 1;
+      let depth = [];
+      let finalDepth = 1;
+      function getDimensions(array) {
+        for (let i = 0; i < array.length; i++) {
+          if(Array.isArray(array[i])){
+            depth.push(array[i].length);
+            dimension++;
+            fixedDimension++;
+            array = array[i];
+          }            
+        }
+        recDoubleNeighbor(multiArr, dimension, 0, 0);
+      }
+
+      let elWithIndexes = [];
+      let args = [];
+      function recDoubleNeighbor(arr, dim, row, column) {
+        if (dim !== 0 && Array.isArray(arr)) {
+          arr.forEach((inn, index) => {
+            args.push(index);
+            if (dim == 1) {
+              let el = {};
+              el["value"] = inn;
+              if (args.length !== fixedDimension && elWithIndexes.length !== 0) {
+                let temp = elWithIndexes[elWithIndexes.length - 1].arguments;
+                if(index !== 0){
+                  args = temp.slice(0,2).concat(args);
+                } else {
+                  args.unshift(elWithIndexes[elWithIndexes.length - 1].arguments[0]);
+                }
+              }
+              el["arguments"] = args;
+              args = [];
+              elWithIndexes.push(el);
+            }
+            recDoubleNeighbor(inn, dim - 1);
+          })            
+        } else if(elWithIndexes.length == multiArr.flat(Infinity).length) {
+          countNeighbors(elWithIndexes);
+        }
+      } 
+
+      function countNeighbors(arr){
+        let newArray = [];
+        for (let i = 0; i < arr.length; i++) {
+          let agg = 0;
+          let temp = arr[i].arguments;
+          let tempCopy = arr[i].arguments.slice();
+          let tempVars = [];
+          for (let j = 0; j < temp.length; j++) {
+            tempCopy[j] = tempCopy[j] + 1;
+            let elAdd = elWithIndexes.find(item => item.arguments.toString() == tempCopy.toString());
+            if(elAdd){
+              agg += elAdd.value;
+            }
+            tempCopy[j] = tempCopy[j] - 2;
+            let elSub = elWithIndexes.find(item => item.arguments.toString() == tempCopy.toString());
+            if(elSub){
+              agg += elSub.value;
+            }
+            tempCopy = arr[i].arguments;
+          }
+          newArray.push(agg);
+          agg = 0;    
+        }
+        let param = depth.reduce((a, b)=> a * b, 1);
+        splitArrays(newArray, param);
+      }
+
+      let finalArray = [];
+
+      function splitArrays(arr, size) {
+        var results = [];    
+        while (arr.length) {
+          results.push(arr.splice(0, size));
+        }   
+        depth.pop(); 
+        if(depth.length !== 0) {
+          let param = depth.reduce((a, b)=> a * b, 1);
+          results.forEach((item, index) =>{
+            splitArrays(item, param);
+          })
+        }
+        if(depth.length == 0) {
+          finalArray.push(results);
+        }
+        if(finalArray.length === multiArr.length){
+          console.log(finalArray);
+        }
+
+      }
+
+      getDimensions(multiArr);
+      */
     </script>
   </body>
   </html>
