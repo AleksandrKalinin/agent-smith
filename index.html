@@ -10,9 +10,9 @@
   <script>
     /*
     let multiArr = [
-    [ [1, 2, 3], [3, 2, 1], [4, 5, 6] ],
-    [ [1, 6, 2], [8, 2, 7], [3, 5, 9] ],
-    [ [2, 8, 2], [6, 4, 2], [3, 1, 5] ]
+      [ [1, 2, 3], [3, 2, 1], [4, 5, 6] ],
+      [ [1, 6, 2], [8, 2, 7], [3, 5, 9] ],
+      [ [2, 8, 2], [6, 4, 2], [3, 1, 5] ]
     ]
 
     function getNeighbours(arr) {
@@ -39,10 +39,11 @@
     //Universal solution attempt
 
     let arr = [1, 2, 3, 4];
+
     let multiArr = [
-      [1, 2, 4],
-      [5, 2, 3],
-      [7, 8, 3]
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9]
     ];
 
     let dimension = 1; let fixedDimension = 1;
@@ -71,15 +72,15 @@
             let el = {};
             el["value"] = inn;
             if (args.length !== fixedDimension && elWithIndexes.length !== 0) {
-              let temp = elWithIndexes[elWithIndexes.length - 1].arguments;
+              let temp = elWithIndexes[elWithIndexes.length - 1].indexes;
               if (index !== 0){
                 args = temp.slice(0, fixedDimension - 1).concat(args);
               } else {
-                args.unshift(elWithIndexes[elWithIndexes.length - 1].arguments[0]);
+                args.unshift(elWithIndexes[elWithIndexes.length - 1].indexes[0]);
               }
             }
             args[args.length - 1] = args[args.length - 1] + 1;
-            el["arguments"] = args;
+            el["indexes"] = args;
             args = [];
             elWithIndexes.push(el);
           }
@@ -89,26 +90,26 @@
         countNeighbors(elWithIndexes);
       }
     } 
-
-    function countNeighbors(arr){
+    function countNeighbors(arr) {
+      let arrCopy = JSON.parse(JSON.stringify(arr));
       let newArray = [];
-      for (let i = 0; i < arr.length; i++) {
+      for (let i = 0; i < arrCopy.length; i++) {
         let agg = 0;
-        let temp = arr[i].arguments;
-        let tempCopy = arr[i].arguments.slice();
+        let temp = arrCopy[i].indexes.slice();
+        let tempCopy = arrCopy[i].indexes.slice();
         let tempVars = [];
         for (let j = 0; j < temp.length; j++) {
           tempCopy[j] = tempCopy[j] + 1;
-          let elAdd = elWithIndexes.find(item => item.arguments.toString() == tempCopy.toString());
+          let elAdd = elWithIndexes.find(item => item.indexes.toString() == tempCopy.toString());
           if (elAdd){
             agg += elAdd.value;
           }
           tempCopy[j] = tempCopy[j] - 2;
-          let elSub = elWithIndexes.find(item => item.arguments.toString() == tempCopy.toString());
+          let elSub = elWithIndexes.find(item => item.indexes.toString() == tempCopy.toString());
           if (elSub){
             agg += elSub.value;
           }
-          tempCopy = arr[i].arguments;
+          tempCopy = arrCopy[i].indexes;
         }
         newArray.push(agg);
         agg = 0;    
